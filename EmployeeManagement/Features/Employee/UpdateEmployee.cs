@@ -240,6 +240,7 @@ public static class UpdateEmployee
             employee.DateOfJoinee = request.UpdateEmployeeRequest.DateOfJoinee;
             employee.UpdatedDate = DateTime.Now;
             employee.Gender = request.UpdateEmployeeRequest.Gender;
+            employee.IsActive = request.UpdateEmployeeRequest.IsActive;
             employee.ProfileImage = request.File != null
                     ? await Utils.SaveFileAsync(request.File)
                     : employee.ProfileImage;
