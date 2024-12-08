@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using EmployeeManagement.Contracts.Employee;
 using EmployeeManagement.Contracts.EmployeeFeature;
-using EmployeeManagement.Features.EmployeeFeature;
+using EmployeeManagement.Features.Employee.DeleteEmployee;
+using EmployeeManagement.Features.Employee.GetEmployees;
+using EmployeeManagement.Features.Employee.UpdateEmployee;
 using EmployeeManagement.Features.EmployeeFeatures;
 
 namespace EmployeeManagement.Infrastructure.AutoMapper

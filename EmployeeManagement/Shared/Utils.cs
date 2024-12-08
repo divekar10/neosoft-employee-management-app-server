@@ -54,9 +54,9 @@
 
         public static int GetRandomNumber()
         {
-            var random = new Random(4);
+            var random = new Random();
 
-            return random.Next();
+            return random.Next(5,10);
         }
     }
 }

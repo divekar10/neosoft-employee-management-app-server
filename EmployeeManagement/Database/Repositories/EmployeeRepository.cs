@@ -1,7 +1,9 @@
 ﻿using EmployeeManagement.Contracts.EmployeeFeature;
 using EmployeeManagement.Database.Infrastructure;
+using EmployeeManagement.Database.Infrastructure.Extensions;
 using EmployeeManagement.DTOs.EmployeeDto;
 using EmployeeManagement.Entities;
+using EmployeeManagement.Features.Employee.GetEmployees;
 using EmployeeManagement.Shared;
 using EmployeeManagement.Shared.Enum;
 using EmployeeManagement.Shared.Result;
@@ -13,7 +15,7 @@ namespace EmployeeManagement.Database.Repositories;
 public interface IEmployeeRepository : IRepository<Employee>
 {
     Task<Result<GetEmployeeDto>> GetEmployee(int id);
-    Task<Result<PaginatedList<GetEmployeeDto>>> GetEmployees(GetEmployeesRequest request);
+    Task<Result<PaginatedList<GetEmployeeDto>>> GetEmployees(GetEmployees.Query request);
 }
 
 public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
@@ -62,7 +64,7 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
         }
     }
 
-    public async Task<Result<PaginatedList<GetEmployeeDto>>> GetEmployees(GetEmployeesRequest request)
+    public async Task<Result<PaginatedList<GetEmployeeDto>>> GetEmployees(GetEmployees.Query request)
     {
         var query = (from e in _context.Employee
                      join c in _context.Country on e.CountryId equals c.Row_Id
@@ -92,20 +94,16 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
             query = query.Where(x => x.FirstName.Contains(request.SearchText));
         }
 
-        if (request.SortOrder == "asc")
+        if (!string.IsNullOrEmpty(request.SortBy) && !string.IsNullOrEmpty(request.SortOrder))
         {
-            query = query.OrderBy(x => x.Row_Id);
-        }
-        else
-        {
-            query = query.OrderByDescending(x => x.Row_Id);
+            query = query.ApplySorting(request.SortBy, request.SortOrder);
         }
 
         var result = await PaginatedList<GetEmployeeDto>.CreateAsync(query, request.PageIndex, request.PageSize);
 
         result.Items.ForEach(async x =>
         {
-            x.ProfileImage = await Utils.FileToBase64(x.ProfileImage);
+            x.ProfileImage = await Utils.FileToBase64(x.ProfileImage!);
         });
 
         //query = query.Skip(request.From)
@@ -135,7 +133,7 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
         //}
         //else
         //{
-            return Result.Success(result);
+        return Result.Success(result);
         //}
     }
 
