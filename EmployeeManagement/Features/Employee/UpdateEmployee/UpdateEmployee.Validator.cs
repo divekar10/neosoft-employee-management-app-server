@@ -1,6 +1,7 @@
 ﻿using EmployeeManagement.Contracts.EmployeeFeature;
 using EmployeeManagement.Shared;
 using FluentValidation;
+using Utilities.Content;
 
 namespace EmployeeManagement.Features.Employee.UpdateEmployee;
 
@@ -12,15 +13,15 @@ public static partial class UpdateEmployee
         {
             RuleFor(x => x.Row_Id)
                 .NotNull()
-                .WithMessage("Employee ID is required.")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP218"))
                 .NotEmpty()
-                .WithMessage("Employee ID is required.");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP218"));
 
             RuleFor(x => x.FirstName)
-            .NotNull()
-            .WithMessage("First name is required,")
-            .NotEmpty()
-            .WithMessage("First name is required,");
+                .NotNull()
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP205"))
+                .NotEmpty()
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP205"));
 
             When(x => !string.IsNullOrEmpty(x.FirstName), () =>
             {
@@ -31,9 +32,9 @@ public static partial class UpdateEmployee
 
             RuleFor(x => x.LastName)
                 .NotNull()
-                .WithMessage("Last name is required,")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP206"))
                 .NotEmpty()
-                .WithMessage("Last name is required,");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP206"));
 
             When(x => !string.IsNullOrEmpty(x.LastName), () =>
             {
@@ -44,9 +45,9 @@ public static partial class UpdateEmployee
 
             RuleFor(x => x.EmailAddress)
                 .NotNull()
-                .WithMessage("Email Address is required,")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP207"))
                 .NotEmpty()
-                .WithMessage("Email Address is required,");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP207"));
 
             When(x => !string.IsNullOrEmpty(x.EmailAddress), () =>
             {
@@ -56,9 +57,9 @@ public static partial class UpdateEmployee
 
             RuleFor(x => x.MobileNumber)
                 .NotNull()
-                .WithMessage("Mobile Number is required,")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP208"))
                 .NotEmpty()
-                .WithMessage("Mobile Number is required,");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP208"));
 
             When(x => !string.IsNullOrEmpty(x.MobileNumber), () =>
             {
@@ -68,9 +69,9 @@ public static partial class UpdateEmployee
 
             RuleFor(x => x.PanNumber)
                 .NotNull()
-                .WithMessage("Pan number is required,")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP209"))
                 .NotEmpty()
-                .WithMessage("Pan Number is required,");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP209"));
 
             When(x => !string.IsNullOrEmpty(x.PanNumber), () =>
             {
@@ -81,63 +82,63 @@ public static partial class UpdateEmployee
 
             RuleFor(x => x.DateOfJoinee)
                 .NotNull()
-                .WithMessage("Date of joinee is required.")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP210"))
                 .NotEmpty()
-                .WithMessage("Date of joinee is required.");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP210"));
 
             When(x => x.DateOfJoinee != null, () =>
             {
                 RuleFor(x => x.DateOfJoinee.Value.Date)
                     .LessThan(DateTime.Now.Date)
-                    .WithMessage("Date of joinee should be less than today's date");
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP211"));
             });
 
             RuleFor(x => x.DateOfBirth)
                 .NotNull()
-                .WithMessage("Date of birth is required.")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP212"))
                 .NotEmpty()
-                .WithMessage("Date of birth is required.");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP212"));
 
-            When(x => x.DateOfBirth != null, () =>
-            {
-                RuleFor(x => x.DateOfBirth)
-                    .LessThan(DateTime.Now)
-                    .WithMessage("Date of birth should be less than today's date");
-            });
+            //When(x => x.DateOfBirth != null, () =>
+            //{
+            //    RuleFor(x => x.DateOfBirth)
+            //        .LessThan(DateTime.Now)
+            //        .WithMessage("Date of birth should be less than today's date");
+            //});
 
             When(x => x.DateOfBirth != null, () =>
             {
                 RuleFor(x => x.DateOfBirth)
                     .Must(x => Utils.Is18EmployeeYearsOld(x))
-                    .WithMessage("Employee should be 18 years old.");
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP213"));
             });
 
             When(x => !string.IsNullOrEmpty(x.PanNumber), () =>
             {
                 RuleFor(x => x.PanNumber)
                     .Matches("[A-Z]{5}[0-9]{4}[A-Z]{1}")
-                    .WithMessage("Pan number is not valid.");
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP214"));
             });
 
             When(x => !string.IsNullOrEmpty(x.PassportNumber), () =>
             {
                 RuleFor(x => x.PassportNumber)
                     .Matches("^[a-zA-Z0-9]+$")
-                    .WithMessage("Passport number should be alphanumeric.");
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP215"));
             });
 
             When(x => !string.IsNullOrEmpty(x.EmailAddress), () =>
             {
                 RuleFor(x => x.EmailAddress)
                     .Matches("^[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,3}$")
-                    .WithMessage("Email address is not valid.");
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP216"));
             });
 
             When(x => !string.IsNullOrEmpty(x.MobileNumber), () =>
             {
                 RuleFor(x => x.MobileNumber)
                     .Matches("^[0-9]+$")
-                    .WithMessage("Mobile number should be numeric.");
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP217"));
             });
         }
     }

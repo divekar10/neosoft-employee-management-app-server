@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.Contracts.EmployeeFeature;
 using FluentValidation;
+using Utilities.Content;
 
 namespace EmployeeManagement.Features.Employee.DeleteEmployee;
 
@@ -11,9 +12,9 @@ public static partial class DeleteEmployee
         {
             RuleFor(x => x.Row_Id)
                 .NotNull()
-                .WithMessage("Employee ID is required.")
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP218"))
                 .NotEmpty()
-                .WithMessage("Employee ID is required.");
+                .WithMessage(ContentLoader.ReturnLanguageData("EMP218"));
         }
     }
 }

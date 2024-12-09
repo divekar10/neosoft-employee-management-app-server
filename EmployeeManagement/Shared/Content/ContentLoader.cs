@@ -26,7 +26,7 @@ namespace Utilities.Content
             }
         }
 
-        public static string ReturnLanguageData(string key, string language)
+        public static string ReturnLanguageData(string key, string language = "")
         {
             try
             {

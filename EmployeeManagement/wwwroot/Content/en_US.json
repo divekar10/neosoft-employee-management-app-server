@@ -2,4 +2,27 @@
     "EMP100": "Success.",
     "EMP101": "Failure.",
     "EMP102": "Something went wrong.",
+    "EMP103": "Request is null.",
+    "EMP104": "Record not found.",
+
+    //validation messages
+    "EMP200": "Only .jpg and .png file are allowed.",
+    "EMP201": "Mobile number already exists.",
+    "EMP202": "Email address already exists.",
+    "EMP203": "Pan number already exists.",
+    "EMP204": "Passport number already exists.",
+    "EMP205": "First name is required.",
+    "EMP206": "Last name is required.",
+    "EMP207": "Email Address is required.",
+    "EMP208": "Mobile Number is required.",
+    "EMP209": "Pan number is required.",
+    "EMP210": "Date of joinee is required.",
+    "EMP211": "Date of joinee should be less than today's date.",
+    "EMP212": "Date of birth is required.",
+    "EMP213": "Employee should be 18 years old.",
+    "EMP214": "Pan number is not valid.",
+    "EMP215": "Passport number should be alphanumeric.",
+    "EMP216": "Email address is not valid.",
+    "EMP217": "Mobile number should be numeric.",
+    "EMP218": "Employee ID is required."
 }

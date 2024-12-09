@@ -4,6 +4,7 @@ using EmployeeManagement.Shared;
 using EmployeeManagement.Shared.Enum;
 using EmployeeManagement.Shared.Result;
 using MediatR;
+using Utilities.Content;
 
 namespace EmployeeManagement.Features.EmployeeFeatures;
 
@@ -22,7 +23,7 @@ public static partial class AddEmployee
         {
             if (request is null)
             {
-                return Result.Failure(new(ErrorType.Validation, "Request is null."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP103")));
             }
 
             if (request.ProfileImage is not null)
@@ -33,7 +34,7 @@ public static partial class AddEmployee
 
                 if (!extensions.Contains(extention))
                 {
-                    return Result.Failure(new(ErrorType.Validation, "Only .jpg and .png file are allowed."));
+                    return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP200")));
                 }
             }
 
@@ -43,7 +44,7 @@ public static partial class AddEmployee
 
             if (isMobileNumberExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Mobile number already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP201")));
             }
 
             var isEmailExists = await _unitOfWork.EmployeeRepository
@@ -51,7 +52,7 @@ public static partial class AddEmployee
 
             if (isEmailExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Email address already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP202")));
             }
 
             var isPanNumberExists = await _unitOfWork.EmployeeRepository
@@ -59,7 +60,7 @@ public static partial class AddEmployee
 
             if (isPanNumberExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Pan number already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP203")));
             }
 
             var isPassportNumberExists = await _unitOfWork.EmployeeRepository
@@ -67,7 +68,7 @@ public static partial class AddEmployee
 
             if (isPassportNumberExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Passport number already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP204")));
             }
 
             bool isExists = true;

@@ -70,7 +70,7 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
                      join c in _context.Country on e.CountryId equals c.Row_Id
                      join s in _context.State on e.StateId equals s.Row_Id
                      join ci in _context.City on e.CityId equals ci.Row_Id
-                     where e.IsActive == true && e.IsDeleted == false
+                     where e.IsDeleted == false
                      select new GetEmployeeDto
                      {
                          FirstName = e.FirstName,

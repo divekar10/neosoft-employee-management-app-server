@@ -3,6 +3,7 @@ using EmployeeManagement.Shared;
 using EmployeeManagement.Shared.Enum;
 using EmployeeManagement.Shared.Result;
 using MediatR;
+using Utilities.Content;
 
 namespace EmployeeManagement.Features.Employee.UpdateEmployee;
 
@@ -20,7 +21,7 @@ public static partial class UpdateEmployee
         {
             if (request is null)
             {
-                return Result.Failure(new(ErrorType.Validation, "Request is null."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP103")));
             }
 
             if (request.File is not null)
@@ -31,17 +32,23 @@ public static partial class UpdateEmployee
 
                 if (!extensions.Contains(extention))
                 {
-                    return Result.Failure(new(ErrorType.Validation, "Only .jpg and .png file are allowed."));
+                    return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP200")));
                 }
             }
 
+            var employee = await _unitOfWork.EmployeeRepository.GetFirstOrDefaultAsync(x => x.Row_Id == request.UpdateEmployeeRequest.Row_Id);
+
+            if (employee is null)
+            {
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP104")));
+            }
 
             var isMobileNumberExists = await _unitOfWork.EmployeeRepository
                 .AnyAsync(x => x.MobileNumber == request.UpdateEmployeeRequest.MobileNumber && x.Row_Id != request.UpdateEmployeeRequest.Row_Id);
 
             if (isMobileNumberExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Mobile number already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP201")));
             }
 
             var isEmailExists = await _unitOfWork.EmployeeRepository
@@ -49,7 +56,7 @@ public static partial class UpdateEmployee
 
             if (isEmailExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Email address already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP202")));
             }
 
             var isPanNumberExists = await _unitOfWork.EmployeeRepository
@@ -57,7 +64,7 @@ public static partial class UpdateEmployee
 
             if (isPanNumberExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Pan number already exists."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP203")));
             }
 
             var isPassportNumberExists = await _unitOfWork.EmployeeRepository
@@ -65,14 +72,7 @@ public static partial class UpdateEmployee
 
             if (isPassportNumberExists)
             {
-                return Result.Failure(new(ErrorType.Validation, "Passport number already exists."));
-            }
-
-            var employee = await _unitOfWork.EmployeeRepository.GetFirstOrDefaultAsync(x => x.Row_Id == request.UpdateEmployeeRequest.Row_Id);
-
-            if (employee is null)
-            {
-                return Result.Failure(new(ErrorType.Validation, "record not found."));
+                return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP204")));
             }
 
             employee.FirstName = request.UpdateEmployeeRequest.FirstName;
