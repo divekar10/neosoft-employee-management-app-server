@@ -21,7 +21,7 @@
     "EMP212": "Date of birth is required.",
     "EMP213": "Employee should be 18 years old.",
     "EMP214": "Pan number is not valid.",
-    "EMP215": "Passport number should be alphanumeric.",
+    "EMP215": "Invalid passport number.",
     "EMP216": "Email address is not valid.",
     "EMP217": "Mobile number should be numeric.",
     "EMP218": "Employee ID is required."

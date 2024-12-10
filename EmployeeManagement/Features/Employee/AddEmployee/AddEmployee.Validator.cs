@@ -117,7 +117,7 @@ public static partial class AddEmployee
             When(x => !string.IsNullOrEmpty(x.PassportNumber), () =>
             {
                 RuleFor(x => x.PassportNumber)
-                    .Matches("^[a-zA-Z0-9]+$")
+                    .Matches("^[A-Z][1-9]\\d\\s?\\d{4}[1-9]$")
                     .WithMessage(ContentLoader.ReturnLanguageData("EMP215"));
             });
 

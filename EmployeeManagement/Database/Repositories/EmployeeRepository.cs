@@ -54,12 +54,15 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
                                   DateOfJoinee = e.DateOfJoinee
                               }).FirstOrDefaultAsync();
 
+
         if (employee is null)
         {
             return Result.Failure<GetEmployeeDto>(new(ErrorType.NotFound, "record not found."));
         }
         else
         {
+            employee.ProfileImage = await Utils.FileToBase64(Path.Combine(Directory.GetCurrentDirectory(), employee.ProfileImage!));
+
             return Result.Success(employee);
         }
     }
@@ -101,9 +104,10 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
 
         var result = await PaginatedList<GetEmployeeDto>.CreateAsync(query, request.PageIndex, request.PageSize);
 
+        var currentDirectory = Directory.GetCurrentDirectory();
         result.Items.ForEach(async x =>
         {
-            x.ProfileImage = await Utils.FileToBase64(x.ProfileImage!);
+            x.ProfileImage = await Utils.FileToBase64(Path.Combine(currentDirectory, x.ProfileImage!));
         });
 
         //query = query.Skip(request.From)

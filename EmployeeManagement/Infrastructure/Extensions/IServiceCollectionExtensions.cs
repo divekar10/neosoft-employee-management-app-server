@@ -40,6 +40,8 @@ namespace EmployeeManagement.Infrastructure.Extensions
                 options.UseSqlServer(configuration.GetConnectionString(Constants.SQL_CONNECTION_STRING_KEY));
             });
 
+            SQLHelper.ConnectionString = configuration.GetConnectionString(Constants.SQL_CONNECTION_STRING_KEY)!;
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
