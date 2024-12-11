@@ -24,5 +24,6 @@
     "EMP215": "Invalid passport number.",
     "EMP216": "Email address is not valid.",
     "EMP217": "Mobile number should be numeric.",
-    "EMP218": "Employee ID is required."
+    "EMP218": "Employee ID is required.",
+    "EMP219": "Employee must be at least 18 years old to join."
 }

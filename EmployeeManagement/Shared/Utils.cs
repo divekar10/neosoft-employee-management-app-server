@@ -20,6 +20,29 @@
             return age > 18;
         }
 
+        public static int DateDifferenceInYears(DateTime firstDate, DateTime secondDate)
+        {
+            if (firstDate == null)
+            {
+                throw new ArgumentNullException(nameof(firstDate));
+            }
+
+            if(secondDate == null)
+            {
+                throw new ArgumentNullException(nameof(secondDate));
+            }
+
+            var age = secondDate.Year - firstDate.Year;
+
+            if (DateTime.Now.Month < firstDate.Month ||
+                (DateTime.Now.Month == firstDate.Month && DateTime.Now.Day < firstDate.Day))
+            {
+                age--;
+            }
+
+            return age;
+        }
+
         public static async Task<string> SaveFileAsync(IFormFile file)
         {
             var folderLocation = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads");

@@ -93,6 +93,13 @@ public static partial class UpdateEmployee
                     .WithMessage(ContentLoader.ReturnLanguageData("EMP211"));
             });
 
+            When(x => x.DateOfJoinee != null && x.DateOfBirth != null, () =>
+            {
+                RuleFor(x => x)
+                    .Must(x => Utils.DateDifferenceInYears(x.DateOfBirth.Value, x.DateOfJoinee.Value) > 18)
+                    .WithMessage(ContentLoader.ReturnLanguageData("EMP219"));
+            });
+
             RuleFor(x => x.DateOfBirth)
                 .NotNull()
                 .WithMessage(ContentLoader.ReturnLanguageData("EMP212"))
