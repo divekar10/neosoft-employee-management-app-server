@@ -11,56 +11,56 @@ namespace EmployeeManagement.Features.EmployeeFeatures;
 public static partial class AddEmployee
 {
     public class Endpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("employee");
-
-        group.MapPost("add", async (HttpRequest request, IMapper mapper, IValidator<AddEmployeeRequest> validator, ISender sender) =>
+        public void AddRoutes(IEndpointRouteBuilder app)
         {
-            var form = await request.ReadFormAsync();
-            var data = form["data"];
-            var file = form.Files["file"];
+            var group = app.MapGroup("employee");
 
-            var deserializeEmployeeData = JsonSerializer.Deserialize<AddEmployeeRequest>(data!);
-
-            if (deserializeEmployeeData is null)
+            group.MapPost("add", async (HttpRequest request, IMapper mapper, IValidator<AddEmployeeRequest> validator, ISender sender) =>
             {
-                throw new ArgumentNullException(nameof(AddEmployeeRequest));
-            }
+                var form = await request.ReadFormAsync();
+                var data = form["data"];
+                var file = form.Files["file"];
 
-            var validationResult = validator.Validate(deserializeEmployeeData);
+                var deserializeEmployeeData = JsonSerializer.Deserialize<AddEmployeeRequest>(data!);
 
-            if (!validationResult.IsValid)
-            {
-                return ResultExtensions.ToValidationFailure(validationResult);
-            }
+                if (deserializeEmployeeData is null)
+                {
+                    throw new ArgumentNullException(nameof(AddEmployeeRequest));
+                }
 
-            var command = new AddEmployee.Command()
-            {
-                AddEmployeeRequest = deserializeEmployeeData,
-                ProfileImage = file!
-            };
+                var validationResult = validator.Validate(deserializeEmployeeData);
 
-            if (command is null)
-            {
-                throw new ArgumentNullException(nameof(AddEmployeeRequest));
-            }
+                if (!validationResult.IsValid)
+                {
+                    return ResultExtensions.ToValidationFailure(validationResult);
+                }
 
-            var result = await sender.Send(command);
+                var command = new AddEmployee.Command()
+                {
+                    AddEmployeeRequest = deserializeEmployeeData,
+                    ProfileImage = file!
+                };
 
-            if (result.IsSuccess)
-            {
-                return result.ToSuccess();
-            }
-            else
-            {
-                return result.ToProblemDetails();
-            }
-        })
-        //.AddEndpointFilter<ValidationFilter<AddEmployeeRequest>>()
-        .WithTags("employee")
-        .DisableAntiforgery();
+                if (command is null)
+                {
+                    throw new ArgumentNullException(nameof(AddEmployeeRequest));
+                }
+
+                var result = await sender.Send(command);
+
+                if (result.IsSuccess)
+                {
+                    return result.ToSuccess();
+                }
+                else
+                {
+                    return result.ToProblemDetails();
+                }
+            })
+            //.AddEndpointFilter<ValidationFilter<AddEmployeeRequest>>()
+            .WithTags("employee")
+            .DisableAntiforgery();
+        }
     }
-}
 }

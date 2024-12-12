@@ -1,6 +1,39 @@
-@EmployeeManagement_HostAddress = http://localhost:5283
+@EmployeeManagement_HostAddress = https://localhost:44339
 
 GET {{EmployeeManagement_HostAddress}}/weatherforecast/
 Accept: application/json
 
+### employee
+
+POST {{EmployeeManagement_HostAddress}}/employee/employees
+Content-Type: application/json
+
+{
+    "PageIndex":1,
+    "PageSize":5,
+    "SearchText":"",
+    "SortBy":"Row_Id",
+    "SortOrder":"asc"
+}
+
 ###
+GET {{EmployeeManagement_HostAddress}}/employee/employee/3
+Content-Type: application/json
+Accept: application/json
+
+###
+
+DELETE {{EmployeeManagement_HostAddress}}/employee/delete/299
+Content-Type: application/json
+
+### country
+GET {{EmployeeManagement_HostAddress}}/country/countries
+Content-Type: application/json
+
+### state
+GET {{EmployeeManagement_HostAddress}}/state/states/15
+Content-Type: application/json
+
+### city
+GET {{EmployeeManagement_HostAddress}}/city/cities/6
+Content-Type: application/json
