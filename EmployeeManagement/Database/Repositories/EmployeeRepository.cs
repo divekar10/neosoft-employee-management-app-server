@@ -61,8 +61,6 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
         }
         else
         {
-            employee.ProfileImage = await Utils.FileToBase64(Path.Combine(Directory.GetCurrentDirectory(), employee.ProfileImage!));
-
             return Result.Success(employee);
         }
     }
@@ -103,17 +101,6 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
         }
 
         var result = await PaginatedList<GetEmployeeDto>.CreateAsync(query, request.PageIndex, request.PageSize);
-
-        var parallelOptions = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = 3
-        };
-
-        var currentDirectory = Directory.GetCurrentDirectory();
-        await Parallel.ForEachAsync(result.Items, parallelOptions, async (item, token) =>
-        {
-            item.ProfileImage = await Utils.FileToBase64(Path.Combine(currentDirectory, item.ProfileImage!));
-        });
 
         return Result.Success(result);
     }

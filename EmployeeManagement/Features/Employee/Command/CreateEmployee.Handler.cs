@@ -1,23 +1,29 @@
 ﻿using EmployeeManagement.Database.Infrastructure;
 using EmployeeManagement.Entities;
+using EmployeeManagement.Features.Employee.Event;
 using EmployeeManagement.Shared;
 using EmployeeManagement.Shared.Enum;
 using EmployeeManagement.Shared.Result;
 using MediatR;
 using Utilities.Content;
+using static EmployeeManagement.Features.Employee.Event.EmployeeCreated;
 
 namespace EmployeeManagement.Features.EmployeeFeatures;
 
-public static partial class AddEmployee
+public static partial class CreateEmployee
 {
     internal sealed class Handler
         : IRequestHandler<Command, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPublisher _publisher;
 
-        public Handler(IUnitOfWork unitOfWork)
+        public Handler(
+            IUnitOfWork unitOfWork, 
+            IPublisher publisher)
         {
             _unitOfWork = unitOfWork;
+            _publisher = publisher;
         }
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -109,6 +115,12 @@ public static partial class AddEmployee
 
             _unitOfWork.EmployeeRepository.Add(employee);
             await _unitOfWork.SaveChangesAsync();
+
+            var employeeCreatedNotification = new EmployeeCreatedNotification(employee.Row_Id,
+                                                                              employee.EmailAddress,
+                                                                              employee.FirstName);
+
+            await _publisher.Publish(employeeCreatedNotification, cancellationToken);
 
             return Result.Success();
         }

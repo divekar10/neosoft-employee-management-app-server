@@ -3,6 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Features.EmployeeFeatures;
 
-public static partial class AddEmployee
+public static partial class CreateEmployee
 {
 }

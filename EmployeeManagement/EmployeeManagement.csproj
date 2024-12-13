@@ -18,10 +18,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.11" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Polly" Version="8.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\City\Command\" />
+    <Folder Include="Features\Country\Command\" />
+    <Folder Include="Features\State\Command\" />
     <Folder Include="Shared\Extensions\" />
     <Folder Include="Shared\Helpers\" />
     <Folder Include="wwwroot\uploads\" />

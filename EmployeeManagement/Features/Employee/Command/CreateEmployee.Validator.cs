@@ -5,7 +5,7 @@ using Utilities.Content;
 
 namespace EmployeeManagement.Features.EmployeeFeatures;
 
-public static partial class AddEmployee
+public static partial class CreateEmployee
 {
     public class Validator : AbstractValidator<AddEmployeeRequest>
     {

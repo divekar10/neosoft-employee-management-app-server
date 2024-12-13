@@ -12,7 +12,7 @@ namespace EmployeeManagement.Infrastructure.AutoMapper
     {
         public EmployeeProfile()
         {
-            CreateMap<AddEmployeeRequest, AddEmployee.Command>().ReverseMap();
+            CreateMap<AddEmployeeRequest, CreateEmployee.Command>().ReverseMap();
             CreateMap<UpdateEmployeeRequest, UpdateEmployee.Command>().ReverseMap();
             CreateMap<DeleteEmployeeRequest, DeleteEmployee.Command>().ReverseMap();
             CreateMap<GetEmployeesRequest, GetEmployees.Query>().ReverseMap();

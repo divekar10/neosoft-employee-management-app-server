@@ -3,6 +3,7 @@ using EmployeeManagement.Shared;
 using EmployeeManagement.Shared.Enum;
 using EmployeeManagement.Shared.Result;
 using MediatR;
+using Microsoft.Extensions.Options;
 using Utilities.Content;
 
 namespace EmployeeManagement.Features.Employee.UpdateEmployee;
@@ -12,10 +13,14 @@ public static partial class UpdateEmployee
     internal sealed class Handler : IRequestHandler<Command, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly AppSettings _appSettings;
 
-        public Handler(IUnitOfWork unitOfWork)
+        public Handler(
+            IUnitOfWork unitOfWork,
+            IOptions<AppSettings> appSettings)
         {
             _unitOfWork = unitOfWork;
+            _appSettings = appSettings.Value;
         }
         public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -75,6 +80,8 @@ public static partial class UpdateEmployee
                 return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP204")));
             }
 
+            var oldFileName = employee.ProfileImage;
+
             employee.FirstName = request.UpdateEmployeeRequest.FirstName;
             employee.LastName = request.UpdateEmployeeRequest.LastName;
             employee.EmailAddress = request.UpdateEmployeeRequest.EmailAddress;
@@ -94,8 +101,9 @@ public static partial class UpdateEmployee
                     : employee.ProfileImage;
 
             _unitOfWork.EmployeeRepository.Update(employee);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            Utils.DeleteFile(Path.Combine(_appSettings.ProfilePicturePath, oldFileName));
 
             return Result.Success();
         }

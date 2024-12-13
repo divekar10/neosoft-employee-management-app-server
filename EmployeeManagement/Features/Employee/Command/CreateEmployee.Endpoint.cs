@@ -8,7 +8,7 @@ using MediatR;
 
 namespace EmployeeManagement.Features.EmployeeFeatures;
 
-public static partial class AddEmployee
+public static partial class CreateEmployee
 {
     public class Endpoint : ICarterModule
     {
@@ -36,7 +36,7 @@ public static partial class AddEmployee
                     return ResultExtensions.ToValidationFailure(validationResult);
                 }
 
-                var command = new AddEmployee.Command()
+                var command = new CreateEmployee.Command()
                 {
                     AddEmployeeRequest = deserializeEmployeeData,
                     ProfileImage = file!

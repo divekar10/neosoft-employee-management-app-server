@@ -27,7 +27,7 @@
                 throw new ArgumentNullException(nameof(firstDate));
             }
 
-            if(secondDate == null)
+            if (secondDate == null)
             {
                 throw new ArgumentNullException(nameof(secondDate));
             }
@@ -57,7 +57,7 @@
             {
                 await file.CopyToAsync(stream);
             }
-            return Path.Combine("wwwroot\\uploads", fileName);
+            return fileName;
         }
 
         //public static async Task<string> SaveFileAsync(IFormFile file)
@@ -90,6 +90,19 @@
             }
 
             return string.Empty;
+        }
+
+        public static void DeleteFile(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), path);
+                var file = new FileInfo(filePath);
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+            }
         }
 
         public static int GetRandomNumber()
