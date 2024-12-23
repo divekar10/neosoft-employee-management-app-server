@@ -26,6 +26,7 @@
     <Folder Include="Features\City\Command\" />
     <Folder Include="Features\Country\Command\" />
     <Folder Include="Features\State\Command\" />
+    <Folder Include="Infrastructure\Job\" />
     <Folder Include="Shared\Extensions\" />
     <Folder Include="Shared\Helpers\" />
     <Folder Include="wwwroot\uploads\" />

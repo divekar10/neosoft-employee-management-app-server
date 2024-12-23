@@ -1,6 +1,7 @@
 using Carter;
 using EmployeeManagement.Infrastructure.ExceptionHandler;
 using EmployeeManagement.Infrastructure.Extensions;
+using EmployeeManagement.Infrastructure.Jobs;
 using EmployeeManagement.Infrastructure.OptionsSetup;
 using EmployeeManagement.Shared.Constants;
 using FluentValidation;
@@ -35,6 +36,8 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddHostedService<CleanupJobService>();
 
 var app = builder.Build();
 
