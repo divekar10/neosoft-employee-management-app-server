@@ -10,7 +10,7 @@ using Utilities.Content;
 namespace EmployeeManagement.Features.Common.Generic.Handlers
 {
     public class GetByIdQueryHandler<T> : IRequestHandler<GetByIdQuery<T>, Result<T>>
-        where T : class, IEntity
+        where T : class
     {
         private readonly EmployeeDbContext _context;
         public GetByIdQueryHandler(EmployeeDbContext context) => _context = context;
@@ -23,7 +23,13 @@ namespace EmployeeManagement.Features.Common.Generic.Handlers
             }
 
             var result = await _context.Set<T>().FindAsync(new object[] { request.Id }, cancellationToken);
-            return result!;
+
+            if(result is null)
+            {
+                return Result.Failure<T>(new(ErrorType.NotFound, ContentLoader.ReturnLanguageData("EMP104")));
+            }
+
+            return Result.Success(result!);
         }
     }
 }

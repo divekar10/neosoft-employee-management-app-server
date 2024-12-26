@@ -11,10 +11,10 @@ namespace EmployeeManagement.Features.Common.Generic.Endpoints
         public static void MapGenericCrudEndpoints<T>(this IEndpointRouteBuilder endpoints)
         where T : class, IEntity
         {
-            var group = endpoints.MapGroup("department");
-
             var entityName = typeof(T).Name.ToLower();
+            var group = endpoints.MapGroup(entityName);
 
+            //Create resource
             group.MapPost("", async (T entity, ISender sender) =>
             {
                 var result = await sender.Send(new CreateCommand<T>(entity));
@@ -27,8 +27,9 @@ namespace EmployeeManagement.Features.Common.Generic.Endpoints
                 {
                     return result.ToProblemDetails();
                 }
-            });
+            }).WithTags(entityName);
 
+            //update resource
             group.MapPut($"/{{id}}", async (int id, T entity, ISender sender) =>
             {
                 if (id != entity.Id)
@@ -46,8 +47,9 @@ namespace EmployeeManagement.Features.Common.Generic.Endpoints
                 {
                     return result.ToProblemDetails();
                 }
-            });
+            }).WithTags(entityName);
 
+            //Delete resource
             group.MapDelete($"/{{id}}", async (int id, ISender sender) =>
             {
                 var success = await sender.Send(new DeleteCommand<T>(id));
@@ -60,8 +62,9 @@ namespace EmployeeManagement.Features.Common.Generic.Endpoints
                 {
                     return success.ToProblemDetails();
                 }
-            });
+            }).WithTags(entityName);
 
+            //Get resource by Id
             group.MapGet($"/{{id}}", async (int id, ISender sender) =>
             {
                 var result = await sender.Send(new GetByIdQuery<T>(id));
@@ -74,8 +77,9 @@ namespace EmployeeManagement.Features.Common.Generic.Endpoints
                 {
                     return result.ToProblemDetails();
                 }
-            });
+            }).WithTags(entityName);
 
+            // Get all resources
             group.MapGet($"", async (ISender sender) =>
             {
                 var result = await sender.Send(new GetAllQuery<T>());
@@ -87,7 +91,7 @@ namespace EmployeeManagement.Features.Common.Generic.Endpoints
                 {
                     return result.ToProblemDetails();
                 }
-            });
+            }).WithTags(entityName);
         }
     }
 }

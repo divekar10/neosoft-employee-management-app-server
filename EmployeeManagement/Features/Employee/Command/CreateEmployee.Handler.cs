@@ -116,7 +116,7 @@ public static partial class CreateEmployee
             _unitOfWork.EmployeeRepository.Add(employee);
             await _unitOfWork.SaveChangesAsync();
 
-            var employeeCreatedNotification = new EmployeeCreatedNotification(employee.Row_Id,
+            var employeeCreatedNotification = new EmployeeCreatedNotification(employee.Id,
                                                                               employee.EmailAddress,
                                                                               employee.FirstName);
 

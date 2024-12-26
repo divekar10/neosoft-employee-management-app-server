@@ -10,7 +10,7 @@ using Utilities.Content;
 namespace EmployeeManagement.Features.Common.Generic.Handlers
 {
     public class DeleteCommandHandler<T> : IRequestHandler<DeleteCommand<T>, Result<bool>>
-        where T : class, IEntity
+        where T : class
     {
         private readonly EmployeeDbContext _context;
         public DeleteCommandHandler(EmployeeDbContext context) => _context = context;
@@ -23,10 +23,13 @@ namespace EmployeeManagement.Features.Common.Generic.Handlers
             }
 
             var entity = await _context.Set<T>().FindAsync(new object[] { request.Id }, cancellationToken);
-            if (entity == null) return false;
+            if (entity == null)
+            {
+                return Result.Failure<bool>(new(ErrorType.NotFound, ContentLoader.ReturnLanguageData("EMP104")));
+            }
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
-            return true;
+            return Result.Success(true);
         }
     }
 }

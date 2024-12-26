@@ -27,10 +27,10 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     public async Task<Result<GetEmployeeDto>> GetEmployee(int id)
     {
         var employee = await (from e in _context.Employee
-                              join c in _context.Country on e.CountryId equals c.Row_Id
-                              join s in _context.State on c.Row_Id equals s.CountryId
-                              join ci in _context.City on s.Row_Id equals ci.StateId
-                              where e.Row_Id == id
+                              join c in _context.Country on e.CountryId equals c.Id
+                              join s in _context.State on c.Id equals s.CountryId
+                              join ci in _context.City on s.Id equals ci.StateId
+                              where e.Id == id
                               select new GetEmployeeDto
                               {
                                   FirstName = e.FirstName,
@@ -41,12 +41,12 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
                                   PanNumber = e.PanNumber,
                                   Gender = e.Gender,
                                   PassportNumber = e.PassportNumber,
-                                  Row_Id = e.Row_Id,
+                                  Row_Id = e.Id,
                                   IsActive = e.IsActive,
                                   ProfileImage = e.ProfileImage,
-                                  CountryName = c.CountryName,
+                                  CountryName = c.Name,
                                   StateName = s.StateName,
-                                  CityName = ci.CityName,
+                                  CityName = ci.Name,
                                   CountryId = e.CountryId,
                                   StateId = e.StateId,
                                   CityId = e.CityId,
@@ -68,9 +68,9 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     public async Task<Result<PaginatedList<GetEmployeeDto>>> GetEmployees(GetEmployees.Query request)
     {
         var query = (from e in _context.Employee
-                     join c in _context.Country on e.CountryId equals c.Row_Id
-                     join s in _context.State on e.StateId equals s.Row_Id
-                     join ci in _context.City on e.CityId equals ci.Row_Id
+                     join c in _context.Country on e.CountryId equals c.Id
+                     join s in _context.State on e.StateId equals s.Id
+                     join ci in _context.City on e.CityId equals ci.Id
                      where e.IsDeleted == false
                      select new GetEmployeeDto
                      {
@@ -82,12 +82,12 @@ public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
                          PanNumber = e.PanNumber,
                          Gender = e.Gender,
                          PassportNumber = e.PassportNumber,
-                         Row_Id = e.Row_Id,
+                         Row_Id = e.Id,
                          IsActive = e.IsActive,
                          ProfileImage = e.ProfileImage,
-                         CountryName = c.CountryName,
+                         CountryName = c.Name,
                          StateName = s.StateName,
-                         CityName = ci.CityName
+                         CityName = ci.Name
                      }).AsQueryable();
 
         if (!string.IsNullOrEmpty(request.SearchText))

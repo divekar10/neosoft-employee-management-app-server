@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using EmployeeManagement.Entities.BaseEntity;
 
 namespace EmployeeManagement.Entities
 {
     [Table("EmployeeMaster")]
-    public class Employee
+    public class Employee : IEntity
     {
         [Key]
-        public int Row_Id { get; set; }
+        public int Id { get; set; }
         public required string EmployeeCode { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }

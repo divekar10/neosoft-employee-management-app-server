@@ -10,7 +10,7 @@ using Utilities.Content;
 namespace EmployeeManagement.Features.Common.Generic.Handlers
 {
     public class UpdateCommandHandler<T> : IRequestHandler<UpdateCommand<T>, Result<T>>
-        where T : class, IEntity
+        where T : class
     {
         private readonly EmployeeDbContext _context;
         public UpdateCommandHandler(EmployeeDbContext context) => _context = context;

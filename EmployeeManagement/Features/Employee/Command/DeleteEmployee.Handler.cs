@@ -23,7 +23,7 @@ public static partial class DeleteEmployee
                 return Result.Failure(new(ErrorType.Validation, ContentLoader.ReturnLanguageData("EMP103")));
             }
 
-            var employee = await _unitOfWork.EmployeeRepository.GetFirstOrDefaultAsync(x => x.Row_Id == request.Row_Id);
+            var employee = await _unitOfWork.EmployeeRepository.GetFirstOrDefaultAsync(x => x.Id == request.Row_Id);
 
             if (employee is null)
             {

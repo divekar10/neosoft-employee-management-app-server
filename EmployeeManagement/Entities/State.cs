@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using EmployeeManagement.Entities.BaseEntity;
 
 namespace EmployeeManagement.Entities
 {
-    public class State
+    public class State : IEntity
     {
         [Key]
-        public int Row_Id { get; set; }
+        public int Id { get; set; }
         public required string StateName { get; set; }
         public int CountryId { get; set; }
         public DateTime CreatedAt { get; set; }

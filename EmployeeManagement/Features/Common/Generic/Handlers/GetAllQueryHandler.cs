@@ -10,7 +10,7 @@ using Utilities.Content;
 namespace EmployeeManagement.Features.Common.Generic.Handlers
 {
     public class GetAllQueryHandler<T> : IRequestHandler<GetAllQuery<T>, Result<IEnumerable<T>>>
-            where T : class, IEntity
+            where T : class
     {
         private readonly EmployeeDbContext _context;
         public GetAllQueryHandler(EmployeeDbContext context) => _context = context;
@@ -23,8 +23,12 @@ namespace EmployeeManagement.Features.Common.Generic.Handlers
             }
 
             var result = await _context.Set<T>().ToListAsync(cancellationToken);
+            if(result is not null && result.Count < 0)
+            {
+                return Result.Failure<IEnumerable<T>>(new(ErrorType.NotFound, ContentLoader.ReturnLanguageData("EMP104")));
+            }
 
-            return result;
+            return Result.Success<IEnumerable<T>>(result);
         }
     }
 }

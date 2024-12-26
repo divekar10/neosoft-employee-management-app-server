@@ -41,7 +41,7 @@ public static partial class UpdateEmployee
                 }
             }
 
-            var employee = await _unitOfWork.EmployeeRepository.GetFirstOrDefaultAsync(x => x.Row_Id == request.UpdateEmployeeRequest.Row_Id);
+            var employee = await _unitOfWork.EmployeeRepository.GetFirstOrDefaultAsync(x => x.Id == request.UpdateEmployeeRequest.Row_Id);
 
             if (employee is null)
             {
@@ -49,7 +49,7 @@ public static partial class UpdateEmployee
             }
 
             var isMobileNumberExists = await _unitOfWork.EmployeeRepository
-                .AnyAsync(x => x.MobileNumber == request.UpdateEmployeeRequest.MobileNumber && x.Row_Id != request.UpdateEmployeeRequest.Row_Id);
+                .AnyAsync(x => x.MobileNumber == request.UpdateEmployeeRequest.MobileNumber && x.Id != request.UpdateEmployeeRequest.Row_Id);
 
             if (isMobileNumberExists)
             {
@@ -57,7 +57,7 @@ public static partial class UpdateEmployee
             }
 
             var isEmailExists = await _unitOfWork.EmployeeRepository
-                .AnyAsync(x => x.EmailAddress == request.UpdateEmployeeRequest.EmailAddress && x.Row_Id != request.UpdateEmployeeRequest.Row_Id);
+                .AnyAsync(x => x.EmailAddress == request.UpdateEmployeeRequest.EmailAddress && x.Id != request.UpdateEmployeeRequest.Row_Id);
 
             if (isEmailExists)
             {
@@ -65,7 +65,7 @@ public static partial class UpdateEmployee
             }
 
             var isPanNumberExists = await _unitOfWork.EmployeeRepository
-                .AnyAsync(x => x.PanNumber == request.UpdateEmployeeRequest.PanNumber && x.Row_Id != request.UpdateEmployeeRequest.Row_Id);
+                .AnyAsync(x => x.PanNumber == request.UpdateEmployeeRequest.PanNumber && x.Id != request.UpdateEmployeeRequest.Row_Id);
 
             if (isPanNumberExists)
             {
@@ -73,7 +73,7 @@ public static partial class UpdateEmployee
             }
 
             var isPassportNumberExists = await _unitOfWork.EmployeeRepository
-                .AnyAsync(x => x.PassportNumber == request.UpdateEmployeeRequest.PassportNumber && x.Row_Id != request.UpdateEmployeeRequest.Row_Id);
+                .AnyAsync(x => x.PassportNumber == request.UpdateEmployeeRequest.PassportNumber && x.Id != request.UpdateEmployeeRequest.Row_Id);
 
             if (isPassportNumberExists)
             {

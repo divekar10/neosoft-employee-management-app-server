@@ -2,8 +2,11 @@
 using EmployeeManagement.Database;
 using EmployeeManagement.Database.Infrastructure;
 using EmployeeManagement.Database.Repositories;
+using EmployeeManagement.Features.Common.Generic.Commands;
 using EmployeeManagement.Features.Common.Generic.Handlers;
+using EmployeeManagement.Features.Common.Generic.Queries;
 using EmployeeManagement.Shared.Constants;
+using EmployeeManagement.Shared.Result;
 using EmployeeManagement.Shared.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +36,15 @@ namespace EmployeeManagement.Infrastructure.Extensions
             services.RegisterAssemblyPublicNonGenericClasses(assembliesToScan)
                  .Where(c => c.Name.EndsWith("Service"))
                  .AsPublicImplementedInterfaces();
+        }
+
+        public static void AddCrudHandlersForEntity<T>(this IServiceCollection services) where T : class
+        {
+            services.AddTransient<IRequestHandler<CreateCommand<T>, Result<T>>, CreateCommandHandler<T>>();
+            services.AddTransient<IRequestHandler<UpdateCommand<T>, Result<T>>, UpdateCommandHandler<T>>();
+            services.AddTransient<IRequestHandler<DeleteCommand<T>, Result<bool>>, DeleteCommandHandler<T>>();
+            services.AddTransient<IRequestHandler<GetAllQuery<T>, Result<IEnumerable<T>>>, GetAllQueryHandler<T>>();
+            services.AddTransient<IRequestHandler<GetByIdQuery<T>, Result<T>>, GetByIdQueryHandler<T>>();
         }
 
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
