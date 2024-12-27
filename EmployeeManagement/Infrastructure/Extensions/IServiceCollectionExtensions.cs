@@ -2,8 +2,10 @@
 using EmployeeManagement.Database;
 using EmployeeManagement.Database.Infrastructure;
 using EmployeeManagement.Database.Repositories;
+using EmployeeManagement.Infrastructure.MessageBroker;
 using EmployeeManagement.Shared.Constants;
 using EmployeeManagement.Shared.Services;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.EntityFrameworkCore;
 using NetCore.AutoRegisterDi;
 
@@ -17,6 +19,7 @@ namespace EmployeeManagement.Infrastructure.Extensions
             services.AddTransient(typeof(ICountryRepository), typeof(CountryRepository));
             services.AddTransient(typeof(IStateRepository), typeof(StateRepository));
             services.AddTransient(typeof(ICityRepository), typeof(CityRepository));
+            services.AddTransient(typeof(ITasksRepository), typeof(TasksRepository));
 
             return services;
         }
@@ -35,12 +38,14 @@ namespace EmployeeManagement.Infrastructure.Extensions
 
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString(Constants.SQL_CONNECTION_STRING_KEY);
+
             services.AddDbContext<EmployeeDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString(Constants.SQL_CONNECTION_STRING_KEY));
+                options.UseSqlServer(connectionString);
             });
 
-            SQLHelper.ConnectionString = configuration.GetConnectionString(Constants.SQL_CONNECTION_STRING_KEY)!;
+            SQLHelper.ConnectionString = connectionString!;
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
@@ -61,6 +66,16 @@ namespace EmployeeManagement.Infrastructure.Extensions
                     .AllowAnyMethod();
                 });
             });
+        }
+
+        public static void ConfigureAzureServiceBus(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetSection(Constants.AZURE_SERVICE_BUS_CONNECTION_KEY).GetValue<string>(Constants.AZURE_SERVICE_BUS_CONNECTION_STRING);
+
+            var queueName = configuration.GetSection(Constants.AZURE_SERVICE_BUS_CONNECTION_KEY).GetValue<string>(Constants.AZURE_SERVICE_BUS_QUEUE_NAME);  
+
+            services.AddSingleton<IQueueClient>(x => new QueueClient(connectionString, queueName));
+            services.AddSingleton<IMessagePublisher, MessagePublisher>();
         }
     }
 }

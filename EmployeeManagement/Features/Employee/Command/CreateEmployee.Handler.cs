@@ -1,6 +1,7 @@
 ﻿using EmployeeManagement.Database.Infrastructure;
 using EmployeeManagement.Entities;
 using EmployeeManagement.Features.Employee.Event;
+using EmployeeManagement.Infrastructure.MessageBroker;
 using EmployeeManagement.Shared;
 using EmployeeManagement.Shared.Enum;
 using EmployeeManagement.Shared.Result;
@@ -16,11 +17,11 @@ public static partial class CreateEmployee
         : IRequestHandler<Command, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPublisher _publisher;
+        private readonly IMessagePublisher _publisher;
 
         public Handler(
-            IUnitOfWork unitOfWork, 
-            IPublisher publisher)
+            IUnitOfWork unitOfWork,
+            IMessagePublisher publisher)
         {
             _unitOfWork = unitOfWork;
             _publisher = publisher;
@@ -120,7 +121,7 @@ public static partial class CreateEmployee
                                                                               employee.EmailAddress,
                                                                               employee.FirstName);
 
-            await _publisher.Publish(employeeCreatedNotification, cancellationToken);
+            await _publisher.Publish(employeeCreatedNotification);
 
             return Result.Success();
         }

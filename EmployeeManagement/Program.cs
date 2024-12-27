@@ -16,6 +16,7 @@ services.RegisterRepositories();
 services.ConfigureServices();
 services.ConfigureDatabase(builder.Configuration);
 services.ConfigureCors(builder.Configuration);
+services.ConfigureAzureServiceBus(builder.Configuration);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

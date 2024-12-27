@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagement", "Emplo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23D84965-1336-4619-A1F8-49E46F2DA534}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task-notification-proccessor", "task-notification-proccessor\task-notification-proccessor.csproj", "{367A2598-38FC-450C-8E97-30770DA5F07A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{58C3784C-18A6-4DC7-8172-2086CDC2CB56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58C3784C-18A6-4DC7-8172-2086CDC2CB56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58C3784C-18A6-4DC7-8172-2086CDC2CB56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367A2598-38FC-450C-8E97-30770DA5F07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367A2598-38FC-450C-8E97-30770DA5F07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367A2598-38FC-450C-8E97-30770DA5F07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367A2598-38FC-450C-8E97-30770DA5F07A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

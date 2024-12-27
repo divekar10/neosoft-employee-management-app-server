@@ -12,18 +12,21 @@ namespace EmployeeManagement.Database.Infrastructure
         public ICountryRepository CountryRepository { get; }
         public IStateRepository StateRepository { get; }
         public ICityRepository CityRepository { get; }
+        public ITasksRepository TasksRepository { get; }
 
         public UnitOfWork(EmployeeDbContext context
             , IEmployeeRepository employeeRepository
             , ICountryRepository countryRepository
             , IStateRepository stateRepository
-            , ICityRepository cityRepository)
+            , ICityRepository cityRepository
+            ,ITasksRepository tasksRepository)
         {
             _context = context;
             EmployeeRepository = employeeRepository;
             CountryRepository = countryRepository;
             StateRepository = stateRepository;
             CityRepository = cityRepository;
+            TasksRepository = tasksRepository;
         }
 
         public async Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -11,5 +11,8 @@
         public const string APP_SETTINGS_KEY = "AppSettings";
         public const string CLIENT_APP_URL_KEY = "ClientAppUrl";
         public const string CQRS_KEY = "EmployeeMaster";
+        public const string AZURE_SERVICE_BUS_CONNECTION_KEY = "AzureServiceBus";
+        public const string AZURE_SERVICE_BUS_CONNECTION_STRING = "ConnectionString";
+        public const string AZURE_SERVICE_BUS_QUEUE_NAME = "QueueName";
     }
 }

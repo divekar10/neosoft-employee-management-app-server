@@ -9,6 +9,7 @@ namespace EmployeeManagement.Database.Infrastructure
         ICountryRepository CountryRepository { get; }
         IStateRepository StateRepository { get; }
         ICityRepository CityRepository { get; }
+        ITasksRepository TasksRepository { get; }
         public Task<bool> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
         Task CommitTransactionAsync(CancellationToken cancellationToken = default);

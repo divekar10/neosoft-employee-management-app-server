@@ -9,5 +9,6 @@ namespace EmployeeManagement.Database
         public required DbSet<Country> Country { get; set; }
         public required DbSet<State> State { get; set; }
         public required DbSet<City> City { get; set; }
+        public required DbSet<Tasks> Tasks { get; set; }
     }
 }
